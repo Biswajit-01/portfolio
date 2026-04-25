@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biswajit Behera — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #09090b; --bg2: #111113; --bg3: #1a1a1e;
+    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.14);
+    --text: #f4f4f5; --muted: #71717a;
+    --accent: #6ee7b7; --accent2: #34d399;
+    --gold: #fbbf24; --blue: #60a5fa;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between;
+    background: rgba(9,9,11,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--accent); letter-spacing: -0.02em; }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a { font-size: 0.82rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--text); }
+  .nav-indicator { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); display: inline-block; margin-right: 0.35rem; opacity: 0; transition: opacity 0.2s; }
+  .nav-links a.active .nav-indicator { opacity: 1; }
+  .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 6rem 2rem 4rem; position: relative; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(52,211,153,0.08) 0%, transparent 70%); pointer-events: none; }
+  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 48px 48px; mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%); pointer-events: none; }
+  .hero-inner { max-width: 800px; text-align: center; position: relative; z-index: 1; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 1rem; border: 1px solid var(--border2); border-radius: 99px; font-size: 0.78rem; color: var(--accent); font-family: 'DM Mono', monospace; margin-bottom: 1.5rem; background: rgba(110,231,183,0.06); }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; display: inline-block; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+  h1 { font-family: 'Syne', sans-serif; font-size: clamp(2.8rem, 8vw, 5.5rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 1.2rem; }
+  h1 .name-accent { color: var(--accent); }
+  .hero-subtitle { font-size: 1.1rem; color: var(--muted); max-width: 520px; margin: 0 auto 2.5rem; line-height: 1.7; font-weight: 300; }
+  .hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn { padding: 0.75rem 1.75rem; border-radius: 8px; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.2s; text-decoration: none; border: none; font-family: 'DM Sans', sans-serif; display: inline-flex; align-items: center; gap: 0.5rem; }
+  .btn-primary { background: var(--accent); color: #09090b; }
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
+  .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border2); }
+  .btn-ghost:hover { background: var(--bg3); }
+  .hero-stats { display: flex; gap: 3rem; justify-content: center; margin-top: 4rem; border-top: 1px solid var(--border); padding-top: 2.5rem; flex-wrap: wrap; }
+  .stat { text-align: center; }
+  .stat-num { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; color: var(--accent); }
+  .stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; letter-spacing: 0.05em; text-transform: uppercase; }
+  section { padding: 5rem 2rem; max-width: 900px; margin: 0 auto; }
+  .section-label { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.6rem; }
+  .section-title { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 2.5rem; line-height: 1.1; }
+  .terminal { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem 1.5rem; font-family: 'DM Mono', monospace; font-size: 0.85rem; margin-bottom: 2.5rem; line-height: 1.8; }
+  .term-prompt { color: var(--accent); }
+  .term-cmd { color: var(--text); }
+  .term-output { color: var(--muted); }
+  .term-cursor { display: inline-block; width: 8px; height: 14px; background: var(--accent); vertical-align: text-bottom; animation: blink 1s step-end infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+  .skill-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; cursor: pointer; transition: all 0.25s; position: relative; overflow: hidden; }
+  .skill-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(110,231,183,0.06) 0%, transparent 60%); opacity: 0; transition: opacity 0.25s; }
+  .skill-card:hover { border-color: rgba(110,231,183,0.3); transform: translateY(-2px); }
+  .skill-card:hover::before { opacity: 1; }
+  .skill-cat { font-size: 0.7rem; color: var(--accent); font-family: 'DM Mono', monospace; letter-spacing: 0.1em; margin-bottom: 0.6rem; text-transform: uppercase; }
+  .skill-name { font-weight: 500; font-size: 0.95rem; margin-bottom: 0.75rem; }
+  .skill-bar-wrap { height: 3px; background: rgba(255,255,255,0.08); border-radius: 99px; overflow: hidden; }
+  .skill-bar { height: 100%; background: var(--accent); border-radius: 99px; width: 0; transition: width 1.2s cubic-bezier(0.23,1,0.32,1); }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.75rem; }
+  .tag { font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 99px; background: rgba(255,255,255,0.06); color: var(--muted); font-family: 'DM Mono', monospace; }
+  .exp-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; margin-bottom: 1.5rem; transition: border-color 0.2s; }
+  .exp-card:hover { border-color: var(--border2); }
+  .exp-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+  .exp-company { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.1rem; }
+  .exp-role { color: var(--accent); font-size: 0.88rem; font-family: 'DM Mono', monospace; margin-top: 0.25rem; }
+  .exp-period { font-size: 0.75rem; color: var(--muted); font-family: 'DM Mono', monospace; padding: 0.3rem 0.85rem; border: 1px solid var(--border); border-radius: 99px; white-space: nowrap; }
+  .exp-bullets { list-style: none; }
+  .exp-bullets li { padding: 0.4rem 0; font-size: 0.9rem; color: var(--muted); line-height: 1.6; display: flex; gap: 0.75rem; align-items: flex-start; }
+  .exp-bullets li::before { content: '—'; color: var(--accent); flex-shrink: 0; margin-top: 0.05rem; }
+  .proj-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; transition: all 0.25s; cursor: pointer; margin-bottom: 1.5rem; }
+  .proj-card:hover { border-color: rgba(110,231,183,0.3); transform: translateY(-3px); }
+  .proj-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.2rem; margin-bottom: 0.5rem; }
+  .proj-period { font-size: 0.72rem; color: var(--gold); font-family: 'DM Mono', monospace; margin-bottom: 0.85rem; }
+  .proj-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.65; margin-bottom: 1.25rem; }
+  .proj-result { font-size: 0.82rem; padding: 0.5rem 1rem; border-radius: 8px; background: rgba(110,231,183,0.08); border: 1px solid rgba(110,231,183,0.15); color: var(--accent); font-family: 'DM Mono', monospace; }
+  .proj-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+  .edu-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; margin-bottom: 1rem; display: flex; gap: 1.5rem; align-items: flex-start; transition: border-color 0.2s; }
+  .edu-card:hover { border-color: var(--border2); }
+  .edu-icon { width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0; background: rgba(110,231,183,0.1); border: 1px solid rgba(110,231,183,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+  .edu-degree { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.25rem; }
+  .edu-uni { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.5rem; }
+  .edu-meta { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .edu-badge { font-size: 0.72rem; font-family: 'DM Mono', monospace; padding: 0.2rem 0.65rem; border-radius: 99px; }
+  .edu-badge.year { background: rgba(96,165,250,0.1); color: var(--blue); border: 1px solid rgba(96,165,250,0.2); }
+  .edu-badge.grade { background: rgba(251,191,36,0.1); color: var(--gold); border: 1px solid rgba(251,191,36,0.2); }
+  .lang-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; }
+  .lang-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem 1.5rem; text-align: center; transition: all 0.2s; }
+  .lang-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+  .lang-name { font-weight: 600; font-size: 1rem; margin-bottom: 0.35rem; }
+  .lang-level { font-size: 0.72rem; color: var(--accent); font-family: 'DM Mono', monospace; }
+  .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+  .contact-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; text-align: center; transition: all 0.25s; cursor: pointer; text-decoration: none; display: block; }
+  .contact-card:hover { border-color: rgba(110,231,183,0.3); transform: translateY(-2px); }
+  .contact-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+  .contact-label { font-size: 0.72rem; color: var(--muted); font-family: 'DM Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .contact-value { font-size: 0.88rem; color: var(--text); word-break: break-all; }
+  footer { text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--muted); font-family: 'DM Mono', monospace; }
+  .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s, transform 0.6s; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+  @media (max-width: 600px) {
+    nav { padding: 0.85rem 1.25rem; } .nav-links { gap: 1rem; } .nav-links a { font-size: 0.72rem; }
+    section { padding: 3.5rem 1.25rem; } .hero-stats { gap: 1.5rem; } .edu-card { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-logo">BB</div>
+  <div class="nav-links">
+    <a href="#about"><span class="nav-indicator"></span>About</a>
+    <a href="#skills"><span class="nav-indicator"></span>Skills</a>
+    <a href="#experience"><span class="nav-indicator"></span>Work</a>
+    <a href="#projects"><span class="nav-indicator"></span>Projects</a>
+    <a href="#contact"><span class="nav-indicator"></span>Contact</a>
+  </div>
+</nav>
+
+<section class="hero" id="about">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-badge"><span class="dot"></span>Open to opportunities</div>
+    <h1>Biswajit<br><span class="name-accent">Behera</span></h1>
+    <p class="hero-subtitle">Senior Systems Engineer at Cognizant — building at the intersection of data, automation, and cloud. 3+ years turning complex problems into elegant solutions.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="mailto:biswajit122001@gmail.com">✉ Get in Touch</a>
+      <a class="btn btn-ghost" href="#projects">View Projects →</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">3+</div><div class="stat-label">Years Experience</div></div>
+      <div class="stat"><div class="stat-num">8.5</div><div class="stat-label">CGPA</div></div>
+      <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Tech Stacks</div></div>
+      <div class="stat"><div class="stat-num">3</div><div class="stat-label">Languages</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="fade-up">
+    <div class="section-label">// capabilities</div>
+    <div class="section-title">Technical Skills</div>
+  </div>
+  <div class="terminal fade-up">
+    <div><span class="term-prompt">$ </span><span class="term-cmd">biswajit --skills --verbose</span></div>
+    <div class="term-output">Loading skill matrix... ████████████ 100%</div>
+    <div class="term-output">→ 6 categories found. 15+ technologies indexed.</div>
+    <span class="term-cursor"></span>
+  </div>
+  <div class="skills-grid fade-up" id="skillsGrid">
+    <div class="skill-card" data-level="85"><div class="skill-cat">Programming</div><div class="skill-name">Python</div><div class="skill-bar-wrap"><div class="skill-bar"></div></div><div class="skill-tags"><span class="tag">automation</span><span class="tag">scripting</span></div></div>
+    <div class="skill-card" data-level="80"><div class="skill-cat">Programming</div><div class="skill-name">JavaScript</div><div class="skill-bar-wrap"><div class="skill-bar"></div></div><div class="skill-tags"><span class="tag">ES6+</span><span class="tag">DOM</span></div></div>
+    <div class="skill-card" data-level="70"><div class="skill-cat">Programming</div><div class="skill-name">C++</div><div class="skill-bar-wrap"><div class="skill-bar"></div></div><div class="skill-tags"><span class="tag">OOP</span><span class="tag">DSA</span></div></div>
+    <div class="skill-card" data-level="88"><div class="skill-cat">Database</div><div class="skill-name">Oracle SQL / PL/SQL</div><div class="skill-bar-wrap"><div class="skill-bar"></div></div><div class="skill-tags"><span class="tag">queries</span><span class="tag">procedures</span></div></div>
+    <div class="skill-card" data-level="82"><div class="skill-cat">Database</div><div class="skill-name">MySQL</div><div class="skill-bar-wrap"><div class="skill-bar"></div></div><div class="skill-tags"><span class="tag">design</span><span class="tag">optimization</span></div></div>
+    <div class="skill-card" data-level="78"><div class="skill-cat">Web</div><div class="skill-name">HTML5 / CSS3</div><div class="skill-bar-wrap"><div class="skill-bar"></div></div><div class="skill-tags"><span class="tag">Bootstrap</span><span class="tag">responsive</span></div></div>
+    <div class="skill-card" data-level="72"><div class="skill-cat">Platform</div><div class="skill-name">Linux &amp; Shell</div><div class="skill-bar-wrap"><div class="skill-bar"></div></div><div class="skill-tags"><span class="tag">bash</span><span class="tag">scripting</span></div></div>
+    <div class="skill-card" data-level="68"><div class="skill-cat">Platform</div><div class="skill-name">Cloud Computing</div><div class="skill-bar-wrap"><div class="skill-bar"></div></div><div class="skill-tags"><span class="tag">infrastructure</span><span class="tag">services</span></div></div>
+    <div class="skill-card" data-level="74"><div class="skill-cat">Tools</div><div class="skill-name">Git &amp; Version Control</div><div class="skill-bar-wrap"><div class="skill-bar"></div></div><div class="skill-tags"><span class="tag">GitHub</span><span class="tag">branching</span></div></div>
+    <div class="skill-card" data-level="65"><div class="skill-cat">Security</div><div class="skill-name">Web Pen Testing</div><div class="skill-bar-wrap"><div class="skill-bar"></div></div><div class="skill-tags"><span class="tag">OWASP</span><span class="tag">networking</span></div></div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="fade-up">
+    <div class="section-label">// career</div>
+    <div class="section-title">Work Experience</div>
+  </div>
+  <div class="exp-card fade-up">
+    <div class="exp-top">
+      <div>
+        <div class="exp-company">Cognizant Technology Solutions</div>
+        <div class="exp-role">Senior Systems Engineer</div>
+      </div>
+      <div class="exp-period">Sep 2022 – Present · Pune</div>
+    </div>
+    <ul class="exp-bullets">
+      <li>Completed PEGA training covering MySQL, Java, HTML, CSS, and JavaScript — gaining full-stack enterprise app development exposure.</li>
+      <li>Completed ADM ISMO training in Oracle SQL, Oracle PL/SQL, Linux, and Shell scripting for enterprise data systems.</li>
+      <li>Supported enterprise IT projects by collaborating with clients and cross-functional teams, focusing on database optimization, automation, and application support.</li>
+      <li>Developed and tested Python scripts to automate recurring operational tasks, improving team efficiency.</li>
+      <li>Assisted in debugging recurring issues, reducing mean resolution time and improving overall system stability.</li>
+    </ul>
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:1.25rem;">
+      <span class="tag" style="color:var(--accent);">Python</span>
+      <span class="tag" style="color:var(--accent);">Oracle SQL</span>
+      <span class="tag" style="color:var(--accent);">PEGA</span>
+      <span class="tag" style="color:var(--accent);">Linux</span>
+      <span class="tag" style="color:var(--accent);">Power BI</span>
+      <span class="tag" style="color:var(--accent);">ITIL</span>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="fade-up">
+    <div class="section-label">// builds</div>
+    <div class="section-title">Projects</div>
+  </div>
+  <div class="proj-card fade-up">
+    <div class="proj-title">Online Job Portal</div>
+    <div class="proj-period">Feb 2022 – Jul 2022</div>
+    <div class="proj-desc">A full-stack web application enabling employers to post job listings and candidates to apply online. Designed with a complete authentication system, job posting flow, and application tracking dashboard.</div>
+    <div class="proj-result">✦ Result: Fully functional prototype improving job search &amp; posting efficiency end-to-end</div>
+    <div class="proj-stack">
+      <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">Bootstrap</span>
+      <span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">Auth System</span>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="fade-up">
+    <div class="section-label">// background</div>
+    <div class="section-title">Education</div>
+  </div>
+  <div class="edu-card fade-up">
+    <div class="edu-icon">🎓</div>
+    <div>
+      <div class="edu-degree">B.Sc. in Information Technology Management</div>
+      <div class="edu-uni">Ravenshaw University, Cuttack</div>
+      <div class="edu-meta">
+        <span class="edu-badge year">2019 – 2022</span>
+        <span class="edu-badge grade">CGPA: 8.5 / 10</span>
+      </div>
+    </div>
+  </div>
+  <div class="edu-card fade-up">
+    <div class="edu-icon">📘</div>
+    <div>
+      <div class="edu-degree">Higher Secondary — Science</div>
+      <div class="edu-uni">Stewart Science Junior College, Cuttack</div>
+      <div class="edu-meta">
+        <span class="edu-badge year">2017 – 2019</span>
+        <span class="edu-badge grade">63%</span>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:3rem;" class="fade-up">
+    <div class="section-label">// linguistics</div>
+    <div class="section-title" style="font-size:1.5rem;margin-bottom:1.5rem;">Languages</div>
+    <div class="lang-grid">
+      <div class="lang-card"><div class="lang-name">English</div><div class="lang-level">Full Professional</div></div>
+      <div class="lang-card"><div class="lang-name">Hindi</div><div class="lang-level">Full Professional</div></div>
+      <div class="lang-card"><div class="lang-name">Odia</div><div class="lang-level">Native</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="fade-up">
+    <div class="section-label">// reach out</div>
+    <div class="section-title">Let's Connect</div>
+  </div>
+  <div class="contact-grid fade-up">
+    <a class="contact-card" href="mailto:biswajit122001@gmail.com">
+      <div class="contact-icon">✉</div>
+      <div class="contact-label">Email</div>
+      <div class="contact-value">biswajit122001@gmail.com</div>
+    </a>
+    <a class="contact-card" href="tel:+919178756697">
+      <div class="contact-icon">📱</div>
+      <div class="contact-label">Phone</div>
+      <div class="contact-value">+91 91787 56697</div>
+    </a>
+    <a class="contact-card" href="https://www.linkedin.com/in/biswajit-behera-513a52220/" target="_blank">
+      <div class="contact-icon">💼</div>
+      <div class="contact-label">LinkedIn</div>
+      <div class="contact-value">View Profile →</div>
+    </a>
+    <a class="contact-card" href="https://github.com/Biswajit-01" target="_blank">
+      <div class="contact-icon">⌥</div>
+      <div class="contact-label">GitHub</div>
+      <div class="contact-value">View Repos →</div>
+    </a>
+    <div class="contact-card" style="cursor:default;">
+      <div class="contact-icon">📍</div>
+      <div class="contact-label">Location</div>
+      <div class="contact-value">Pune, Maharashtra</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div style="color:var(--accent);font-weight:500;margin-bottom:0.5rem;">Biswajit Behera</div>
+  <div>Senior Systems Engineer · Cognizant · Pune, India</div>
+  <div style="margin-top:0.5rem;font-size:0.7rem;">biswajit122001@gmail.com · +91 9178756697</div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  const skillObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.skill-card').forEach((card, i) => {
+          setTimeout(() => { card.querySelector('.skill-bar').style.width = card.dataset.level + '%'; }, i * 80);
+        });
+      }
+    });
+  }, { threshold: 0.2 });
+  const grid = document.getElementById('skillsGrid');
+  if (grid) skillObs.observe(grid);
+
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const scrollObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id); });
+      }
+    });
+  }, { rootMargin: '-40% 0px -40% 0px' });
+  document.querySelectorAll('section[id]').forEach(s => scrollObs.observe(s));
+</script>
+</body>
+</html>
